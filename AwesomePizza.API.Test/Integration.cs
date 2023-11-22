@@ -1,4 +1,5 @@
-using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace AwesomePizza.API.Test;
@@ -13,10 +14,13 @@ public class Integration
     }
 
     [Fact]
-    public async void AppIsRunning()
+    public async void CustomerCanOrderAPizza()
     {
-        var response = await httpClient.GetAsync("/swagger");
+        var response = await httpClient.PostAsync("/api/order", null);
 
         response.EnsureSuccessStatusCode();
+        var jsonContent = await response.Content.ReadFromJsonAsync<JsonObject>();
+        Assert.NotNull(jsonContent);
+        Assert.NotNull(jsonContent["id"]);
     }
 }
