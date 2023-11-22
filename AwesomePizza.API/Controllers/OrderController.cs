@@ -10,9 +10,8 @@ public class OrderController : ControllerBase
     [HttpPost]
     public Order Create()
     {
-        return new Order("aaa");
+        return new Order($"{new Core.Order().New()}");
     }
 }
-
 
 public record Order(string Id);
