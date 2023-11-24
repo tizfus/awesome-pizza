@@ -1,16 +1,14 @@
 ﻿
+using AwesomePizza.Ports.Output;
+
 namespace AwesomePizza.Core;
 
-public record OrderId(string Value)
+public class Order(IRepository<OrderId> repository)
 {
-    public static implicit operator OrderId(string value) => new(value);
-};
+    private readonly IRepository<OrderId> repository = repository;
 
-
-public class Order
-{
     public OrderId New()
     {
-        return "aaa";
+        return repository.Save("aa");
     }
 }
