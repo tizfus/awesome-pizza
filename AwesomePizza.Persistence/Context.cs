@@ -8,10 +8,6 @@ public partial class Context : DbContext
 {
     public DbSet<Order> Orders { get; set; }
 
-    public Context()
-    {
-    }
-
     public Context(DbContextOptions<Context> options)
         : base(options)
     {
