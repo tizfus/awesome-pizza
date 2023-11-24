@@ -11,5 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AwesomePizza.Core\AwesomePizza.Core.csproj" />
     <ProjectReference Include="..\AwesomePizza.Ports\AwesomePizza.Ports.csproj" />
+    <ProjectReference Include="..\AwesomePizza.Persistence\AwesomePizza.Persistence.csproj" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,9 @@
 using AwesomePizza.API.Controllers;
+using AwesomePizza.Persistence;
 using AwesomePizza.Ports;
 using AwesomePizza.Ports.Input;
 using AwesomePizza.Ports.Output;
+using Microsoft.EntityFrameworkCore;
 
 namespace AwesomePizza.API
 {
@@ -18,7 +20,8 @@ namespace AwesomePizza.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<IRepository<OrderId>, FakeRepository>();
+            builder.Services.AddDbContext<Context>(options => options.UseSqlite("Data Source=awesome-pizza.db"));
+            builder.Services.AddScoped<IRepositoryOrder, RepositoryOrder>();
             builder.Services.AddScoped<IOrder, Core.Order>();
             builder.Services.AddScoped<OrderAdapter>();
 
@@ -39,13 +42,6 @@ namespace AwesomePizza.API
 
             app.Run();
         }
-    }
-}
-
-public class FakeRepository : IRepository<OrderId>
-{
-    public OrderId Save(string id)
-    {
-        return id;
+            
     }
 }

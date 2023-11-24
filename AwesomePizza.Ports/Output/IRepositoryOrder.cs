@@ -1,6 +1,6 @@
 ﻿namespace AwesomePizza.Ports.Output;
 
-public interface IRepository<T> where T : class
+public interface IRepositoryOrder
 {
     OrderId Save(string id);
 }

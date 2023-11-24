@@ -11,7 +11,7 @@ public class OrderTest
     {
         var expectedId = $"{new Random().Next()}";
 
-        var mockRepository = new Mock<IRepository<OrderId>>();
+        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Save(It.IsAny<string>())).Returns(new OrderId(expectedId));
 
         var actual = new Order(mockRepository.Object).New();
