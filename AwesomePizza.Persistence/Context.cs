@@ -16,6 +16,9 @@ public partial class Context : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<Order>().Property(entity => entity.Id)
+            .HasColumnName("id")
+            .HasMaxLength(36);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

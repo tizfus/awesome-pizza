@@ -10,9 +10,9 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 
     public OrderId Save(string id)
     {
-        context.Add(new Order { id = id });
+        context.Add(new Order { Id = id });
         context.SaveChanges();
 
-        return new OrderId(context.Entry(new Order { id = id }).Entity.id);
+        return new OrderId(context.Entry(new Order { Id = id }).Entity.Id);
     }
 }
