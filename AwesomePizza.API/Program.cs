@@ -12,7 +12,17 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        CreateWebHostBuilder(args).Build().Run();
+        var builder = CreateWebHostBuilder(args).Build();
+
+        MigrateDatabase(builder);
+
+        builder.Run();
+    }
+
+    private static void MigrateDatabase(IHost builder)
+    {
+        using var scope = builder.Services.CreateScope();
+        scope.ServiceProvider.GetRequiredService<Context>().Database.Migrate();
     }
 
     // EF Core uses this method at design time to access the DbContext
@@ -45,6 +55,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        
 
         app.UseHttpsRedirection();
 
