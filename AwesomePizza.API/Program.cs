@@ -20,6 +20,7 @@ namespace AwesomePizza.API
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IRepository<OrderId>, FakeRepository>();
             builder.Services.AddScoped<IOrder, Core.Order>();
+            builder.Services.AddScoped<OrderAdapter>();
 
             var app = builder.Build();
 
