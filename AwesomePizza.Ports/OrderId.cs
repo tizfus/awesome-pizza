@@ -1,4 +1,4 @@
-﻿namespace AwesomePizza.Ports.Output;
+﻿namespace AwesomePizza.Ports;
 
 public record OrderId(string Value)
 {

@@ -1,5 +1,11 @@
+using AwesomePizza.API.Controllers;
+using AwesomePizza.Ports;
+using AwesomePizza.Ports.Input;
+using AwesomePizza.Ports.Output;
+
 namespace AwesomePizza.API
 {
+
     public partial class Program
     {
         public static void Main(string[] args)
@@ -12,6 +18,8 @@ namespace AwesomePizza.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IRepository<OrderId>, FakeRepository>();
+            builder.Services.AddScoped<IOrder, Core.Order>();
 
             var app = builder.Build();
 
@@ -30,5 +38,13 @@ namespace AwesomePizza.API
 
             app.Run();
         }
+    }
+}
+
+public class FakeRepository : IRepository<OrderId>
+{
+    public OrderId Save(string id)
+    {
+        return id;
     }
 }
