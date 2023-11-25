@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomePizza.API.Test", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core", "AwesomePizza.Core\AwesomePizza.Core.csproj", "{F968CEBD-D8A5-492C-9634-6E6705CBFBE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core.UnitTest", "Test\AwesomePizza.Core.UnitTest\AwesomePizza.Core.UnitTest.csproj", "{B658DDE6-C2AF-4F86-A3B2-67FEBDD02A7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core.Test", "Test\AwesomePizza.Core.Test\AwesomePizza.Core.Test.csproj", "{B658DDE6-C2AF-4F86-A3B2-67FEBDD02A7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Ports", "AwesomePizza.Ports\AwesomePizza.Ports.csproj", "{0EA373C6-0E2C-410C-8589-F74CFA7C3D5F}"
 EndProject

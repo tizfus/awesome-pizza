@@ -2,7 +2,7 @@ using AwesomePizza.Ports;
 using AwesomePizza.Ports.Output;
 using Moq;
 
-namespace AwesomePizza.Core.UnitTest;
+namespace AwesomePizza.Core.Test.Unit;
 
 public class OrderTest
 {
