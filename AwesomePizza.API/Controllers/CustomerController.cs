@@ -1,4 +1,4 @@
-using AwesomePizza.Ports;
+using AwesomePizza.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AwesomePizza.API.Controllers;
@@ -15,7 +15,7 @@ public class CustomerController(OrderAdapter adapter) : ControllerBase
     }
 
     [HttpGet("order/{id}")]
-    public OrderDetails Get(string id)
+    public Ports.Order Get(string id)
     {
         return adapter.Get(id);
     }

@@ -9,12 +9,12 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
 {
     private readonly IRepositoryOrder repository = repository;
 
-    public OrderDetails Get(OrderId id)
+    public Order Get(OrderId id)
     {
         return repository.Get($"{id}");
     }
 
-    public IEnumerable<OrderDetails> List()
+    public IEnumerable<Order> List()
     {
         return repository.List();
     }
@@ -24,7 +24,7 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
         return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);
     }
 
-    public OrderDetails UpdateStatus(OrderId id, OrderStatus status)
+    public Order UpdateStatus(OrderId id, OrderStatus status)
     {
         repository.Save($"{id}", status);
         return repository.Get($"{id}");

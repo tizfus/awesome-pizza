@@ -9,13 +9,13 @@ namespace AwesomePizza.API.Controllers;
 public class AdminController(OrderAdapter adapter) : ControllerBase
 {
     [HttpGet("order")]
-    public IEnumerable<OrderDetails> List()
+    public IEnumerable<Order> List()
     {
         return adapter.List();
     }
 
     [HttpPut("order/{id}")]
-    public OrderDetails Update(string id, [FromBody] UpdateRequest payload)
+    public Order Update(string id, [FromBody] UpdateRequest payload)
     {
         return adapter.UpdateStatus(id, payload);
     }

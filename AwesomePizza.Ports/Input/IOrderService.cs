@@ -2,8 +2,8 @@
 
 public interface IOrderService
 {
-    OrderDetails Get(OrderId id);
-    IEnumerable<OrderDetails> List();
+    Order Get(OrderId id);
+    IEnumerable<Order> List();
     OrderId New();
-    OrderDetails UpdateStatus(OrderId id, OrderStatus orderStatus);
+    Order UpdateStatus(OrderId id, OrderStatus orderStatus);
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using AwesomePizza.Persistence.Entity;
 using AwesomePizza.Ports;
 using AwesomePizza.Ports.Output;
 
@@ -9,7 +8,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 {
     private readonly Context context = context;
 
-    public OrderDetails Get(string id)
+    public Ports.Order Get(string id)
     {
         var result = context.Orders.Find(id);
         return new (result.Id, ToOrderStatus(result.Status));
@@ -24,7 +23,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         }
         else
         {
-            context.Add(new Order { Id = id, Status = $"{status}" });
+            context.Add(new Entity.Order { Id = id, Status = $"{status}" });
         }
 
         context.SaveChanges();
@@ -32,10 +31,10 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return Get(id).Id;
     }
 
-    public IEnumerable<OrderDetails> List()
+    public IEnumerable<Order> List()
     {
         return context.Orders
-            .Select(order => new OrderDetails(order.Id, ToOrderStatus(order.Status)))
+            .Select(order => new Order(order.Id, ToOrderStatus(order.Status)))
             .ToList();
     }
     

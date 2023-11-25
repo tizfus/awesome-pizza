@@ -43,11 +43,11 @@ public class OrderServiceTest
     public void GetOrderDetail()
     {
         var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new OrderDetails("any id 1", default));
+        mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new Order("any id 1", default));
 
         var actual = new OrderService(mockRepository.Object).Get("any id 2");
 
-        Assert.IsType<OrderDetails>(actual);
+        Assert.IsType<Order>(actual);
         mockRepository.Verify(mock => mock.Get(It.IsAny<string>()), Times.Once);
     }
 
@@ -59,7 +59,7 @@ public class OrderServiceTest
 
         var actual = new OrderService(mockRepository.Object).List();
 
-        Assert.IsAssignableFrom<IEnumerable<OrderDetails>>(actual);
+        Assert.IsAssignableFrom<IEnumerable<Order>>(actual);
         mockRepository.Verify(mock => mock.List(), Times.Once);
     }
 
@@ -68,7 +68,7 @@ public class OrderServiceTest
     {
         var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Save(It.IsAny<string>(), It.IsAny<OrderStatus>()));
-        mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new OrderDetails("any id 1", default));
+        mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new Order("any id 1", default));
 
         var actual = new OrderService(mockRepository.Object).UpdateStatus("any id 2", OrderStatus.Todo);
 

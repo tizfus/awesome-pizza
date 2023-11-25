@@ -8,22 +8,22 @@ public class OrderAdapter(IOrderService service)
 {
     private readonly IOrderService service = service;
 
-    public OrderId Create() 
+    public Models.OrderId Create() 
     {
-        return service.New();
+        return new ($"{service.New()}");
     }
 
-    public OrderDetails Get(string id)
+    public Order Get(string id)
     {
         return service.Get(id);
     }
 
-    public IEnumerable<OrderDetails> List()
+    public IEnumerable<Order> List()
     {
         return service.List();
     }
 
-    public OrderDetails UpdateStatus(string id, UpdateRequest request)
+    public Order UpdateStatus(string id, UpdateRequest request)
     {
         return service.UpdateStatus(id, request.Status);
     }
