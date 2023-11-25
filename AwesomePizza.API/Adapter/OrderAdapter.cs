@@ -1,4 +1,6 @@
-﻿using AwesomePizza.Ports.Input;
+﻿using AwesomePizza.API.Models;
+using AwesomePizza.Ports;
+using AwesomePizza.Ports.Input;
 
 namespace AwesomePizza.API;
 
@@ -8,49 +10,21 @@ public class OrderAdapter(IOrderService service)
 
     public OrderId Create() 
     {
-        return new OrderId($"{service.New()}");
+        return service.New();
     }
 
-    public Order Get(string id)
+    public OrderDetails Get(string id)
     {
-        var result = service.Get(id);
-        OrderStatus status = ToOrderStatusModel(result.Status);
-
-        return new Order(result.Id, status);
+        return service.Get(id);
     }
 
-    public IEnumerable<Order> List()
+    public IEnumerable<OrderDetails> List()
     {
-        return service.List().Select(order => new Order(order.Id, ToOrderStatusModel(order.Status)));
+        return service.List();
     }
 
-    public Order UpdateStatus(string id, OrderStatus status)
+    public OrderDetails UpdateStatus(string id, UpdateRequest request)
     {
-        var result = service.UpdateStatus(id, ToOrderStatusPort(status));
-
-        return new Order(result.Id, ToOrderStatusModel(result.Status));
-    }
-
-
-    private static OrderStatus ToOrderStatusModel(Ports.OrderStatus status)
-    {
-        return status switch
-        {
-            Ports.OrderStatus.Todo => OrderStatus.Todo,
-            Ports.OrderStatus.Doing => OrderStatus.Doing,
-            Ports.OrderStatus.Done => OrderStatus.Done,
-            _ => throw new NotImplementedException()
-        };
-    }
-
-    private static Ports.OrderStatus ToOrderStatusPort(OrderStatus status)
-    {
-        return status switch
-        {
-            OrderStatus.Todo => Ports.OrderStatus.Todo,
-            OrderStatus.Doing => Ports.OrderStatus.Doing,
-            OrderStatus.Done => Ports.OrderStatus.Done,
-            _ => throw new NotImplementedException()
-        };
+        return service.UpdateStatus(id, request.Status);
     }
 }

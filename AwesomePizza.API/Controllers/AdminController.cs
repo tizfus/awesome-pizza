@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AwesomePizza.API.Models;
+using AwesomePizza.Ports;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AwesomePizza.API.Controllers;
 
@@ -7,16 +9,14 @@ namespace AwesomePizza.API.Controllers;
 public class AdminController(OrderAdapter adapter) : ControllerBase
 {
     [HttpGet("order")]
-    public IEnumerable<Order> List()
+    public IEnumerable<OrderDetails> List()
     {
         return adapter.List();
     }
 
     [HttpPut("order/{id}")]
-    public Order Update(string id, [FromBody] UpdateRequest payload)
+    public OrderDetails Update(string id, [FromBody] UpdateRequest payload)
     {
-        return adapter.UpdateStatus(id, payload.Status);
+        return adapter.UpdateStatus(id, payload);
     }
 }
-
-public record UpdateRequest(OrderStatus Status);

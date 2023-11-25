@@ -1,11 +1,5 @@
-﻿namespace AwesomePizza.API;
+﻿using AwesomePizza.Ports;
 
-public record OrderId(string Id);
-public record Order(string Id, OrderStatus Status);
+namespace AwesomePizza.API.Models;
 
-public enum OrderStatus
-{
-    Todo,
-    Doing,
-    Done
-}
+public record UpdateRequest(OrderStatus Status);
