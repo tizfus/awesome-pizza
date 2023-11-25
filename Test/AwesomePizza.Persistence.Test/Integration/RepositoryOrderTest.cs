@@ -8,12 +8,14 @@ public class RepositoryOrderTest : IDisposable
 {
     private readonly SqliteConnection connection;
     private readonly Context context;
+    private readonly RepositoryOrder repository;
 
     public RepositoryOrderTest()
     {
         var database = "sqlite.db";
         connection = Connect(database);
         context = Setup();
+        repository = new RepositoryOrder(context);
     }
 
     public void Dispose()
@@ -26,7 +28,7 @@ public class RepositoryOrderTest : IDisposable
     public void CreateOrder()
     {
         var orderId = $"{new Random().Next()}";
-        var actual = new RepositoryOrder(context).Save(orderId, OrderStatus.Todo);
+        var actual = repository.Save(orderId, OrderStatus.Todo);
         Assert.Equal(orderId, $"{actual}");
     }
 
@@ -35,11 +37,26 @@ public class RepositoryOrderTest : IDisposable
     {
         var orderId = $"{new Random().Next()}";
         var status = OrderStatus.Todo;
-        new RepositoryOrder(context).Save(orderId, status);
-        var actual = new RepositoryOrder(context).Get(orderId);
+        repository.Save(orderId, status);
+        
+        var actual = repository.Get(orderId);
 
         Assert.Equal(orderId, $"{actual.Id}");
         Assert.Equal(status, actual.Status);
+    }
+
+    [Fact]
+    public void CreateAndGetWithCorrectStatus()
+    {
+        foreach (var expected in Enum.GetValues<OrderStatus>())
+        {
+            var orderId = $"{new Random().Next()}";
+            repository.Save(orderId, expected);
+            
+            var actual = repository.Get(orderId);
+
+            Assert.Equal(expected, actual.Status);
+        }
     }
 
 
