@@ -5,7 +5,7 @@ using AwesomePizza.Ports.Output;
 
 namespace AwesomePizza.Core;
 
-public class Order(IRepositoryOrder repository) : IOrder
+public class OrderService(IRepositoryOrder repository) : IOrderService
 {
     private readonly IRepositoryOrder repository = repository;
 

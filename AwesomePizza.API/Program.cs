@@ -44,7 +44,7 @@ public class Startup
 
         services.AddDbContext<Context>(options => options.UseSqlite("Data Source=awesome-pizza.db"));
         services.AddScoped<IRepositoryOrder, RepositoryOrder>();
-        services.AddScoped<IOrder, Core.Order>();
+        services.AddScoped<IOrderService, Core.OrderService>();
         services.AddScoped<OrderAdapter>();
     }
 

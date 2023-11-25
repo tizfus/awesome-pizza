@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AwesomePizza.API;
 
-public class OrderAdapter(IOrder service)
+public class OrderAdapter(IOrderService service)
 {
-    private readonly IOrder service = service;
+    private readonly IOrderService service = service;
 
     public OrderId Create() 
     {

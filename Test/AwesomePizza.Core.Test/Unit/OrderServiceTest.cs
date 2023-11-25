@@ -4,7 +4,7 @@ using Moq;
 
 namespace AwesomePizza.Core.Test.Unit;
 
-public class OrderTest
+public class OrderServiceTest
 {
     [Fact]
     public void CreateAOrder()
@@ -14,7 +14,7 @@ public class OrderTest
         var mockRepository = new Mock<IRepositoryOrder>(MockBehavior.Strict);
         mockRepository.Setup(mock => mock.Save(It.IsAny<string>(), OrderStatus.Todo)).Returns(new OrderId(expectedId));
 
-        var actual = new Order(mockRepository.Object).New();
+        var actual = new OrderService(mockRepository.Object).New();
 
         Assert.Equal(expectedId, $"{actual}");
     }
@@ -29,7 +29,7 @@ public class OrderTest
             .Callback<string, OrderStatus>((id,_) => createdOrderIds.Add(id))
             .Returns(new OrderId("any"));
 
-        var order = new Order(mockRepository.Object);
+        var order = new OrderService(mockRepository.Object);
 
         for (int index = 0; index < 100; index++)
         {
@@ -45,7 +45,7 @@ public class OrderTest
         var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new OrderDetails("any id 1", default));
 
-        var actual = new Order(mockRepository.Object).Get("any id 2");
+        var actual = new OrderService(mockRepository.Object).Get("any id 2");
 
         Assert.IsType<OrderDetails>(actual);
         mockRepository.Verify(mock => mock.Get(It.IsAny<string>()), Times.Once);
