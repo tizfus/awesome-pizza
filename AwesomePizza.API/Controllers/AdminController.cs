@@ -1,9 +1,8 @@
-﻿using System.Text.Json.Nodes;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AwesomePizza.API.Controllers;
 
-[ApiController()]
+[ApiController]
 [Route("api/admin")]
 public class AdminController(OrderAdapter adapter) : ControllerBase
 {
