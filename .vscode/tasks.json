@@ -15,6 +15,17 @@
             ],
 
             "group": "build"
+        },
+        {
+            "label": "run API",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project", "${workspaceFolder}/AwesomePizza.API",
+            ],
+
+            "group": "build"
         }
     ],
     "inputs": [
