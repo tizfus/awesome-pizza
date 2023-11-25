@@ -12,33 +12,20 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
     public OrderDetails Get(string id)
     {
         var result = context.Orders.Find(id);
-        return new (result.Id, ToOrderDetails(result.Status));
+        return new (result.Id, ToOrderStatus(result.Status));
     }
 
     public OrderId Save(string id, OrderStatus status)
     {
-        context.Add(new Order { Id = id, Status = ToString(status) });
+        context.Add(new Order { Id = id, Status = $"{status}" });
         context.SaveChanges();
 
         return Get(id).Id;
     }
 
 
-    private static OrderStatus ToOrderDetails(string status)
+    private static OrderStatus ToOrderStatus(string status)
     {
-        return status switch
-        {
-            "todo" => OrderStatus.Todo,
-            _ => throw new InvalidEnumArgumentException($"Can't convert '{status}' to {nameof(OrderStatus)}"),
-        };
-    }
-
-    private static string ToString(OrderStatus status)
-    {
-        return status switch
-        {
-            OrderStatus.Todo => "todo",
-            _ => throw new InvalidEnumArgumentException($"No string conversion defined for '{status.GetType()}.{status}'"),
-        };
+        return Enum.Parse<OrderStatus>(status);
     }
 }
