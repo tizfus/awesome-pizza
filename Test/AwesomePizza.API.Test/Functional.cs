@@ -52,7 +52,7 @@ public class Functional
     }
 
     [Fact]
-    public async void AdminCanUpdateTheOrder()
+    public async void AdminCanUpdateAOrder()
     {
         var (_, json) = await NewOrderAsync();
         

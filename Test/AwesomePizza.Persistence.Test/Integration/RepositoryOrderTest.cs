@@ -40,11 +40,11 @@ public class RepositoryOrderTest : IDisposable
         repository.Save(orderId, OrderStatus.Todo);
         var firstActual = repository.Get(orderId);
 
-        repository.Save(orderId, OrderStatus.Todo);
+        repository.Save(orderId, OrderStatus.Done);
         var secondActual = repository.Get(orderId);
 
         Assert.Equal(OrderStatus.Todo,firstActual.Status);
-        Assert.Equal(OrderStatus.Todo, secondActual.Status);
+        Assert.Equal(OrderStatus.Done, secondActual.Status);
     }
 
     [Fact]

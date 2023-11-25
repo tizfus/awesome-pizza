@@ -70,7 +70,7 @@ public class OrderServiceTest
         mockRepository.Setup(mock => mock.Save(It.IsAny<string>(), It.IsAny<OrderStatus>()));
         mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new Order("any id 1", default));
 
-        var actual = new OrderService(mockRepository.Object).UpdateStatus("any id 2", OrderStatus.Todo);
+        var actual = new OrderService(mockRepository.Object).UpdateStatus("any id 2", default);
 
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsAny<string>(), It.IsAny<OrderStatus>()), Times.Once);
