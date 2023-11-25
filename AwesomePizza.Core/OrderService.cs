@@ -14,6 +14,11 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
         return repository.Get($"{id}");
     }
 
+    public IEnumerable<OrderDetails> List()
+    {
+        return repository.List();
+    }
+
     public OrderId New()
     {
         return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);

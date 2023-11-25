@@ -59,9 +59,19 @@ public class RepositoryOrderTest : IDisposable
         }
     }
 
+    [Fact]
+    public void ListAllOrders()
+    {
+        var random = new Random();
+        repository.Save($"{random.Next()}", OrderStatus.Todo);
+        repository.Save($"{random.Next()}", OrderStatus.Todo);
+        repository.Save($"{random.Next()}", OrderStatus.Todo);
+        repository.Save($"{random.Next()}", OrderStatus.Todo);
 
+        var actual = repository.List();
 
-
+        Assert.Equal(4, actual.Count());
+    }
 
 
     private Context Setup()

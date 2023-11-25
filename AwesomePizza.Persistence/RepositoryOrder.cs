@@ -23,7 +23,13 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return Get(id).Id;
     }
 
-
+    public IEnumerable<OrderDetails> List()
+    {
+        return context.Orders
+            .Select(order => new OrderDetails(order.Id, ToOrderStatus(order.Status)))
+            .ToList();
+    }
+    
     private static OrderStatus ToOrderStatus(string status)
     {
         return Enum.Parse<OrderStatus>(status);

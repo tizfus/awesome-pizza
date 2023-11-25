@@ -50,4 +50,16 @@ public class OrderServiceTest
         Assert.IsType<OrderDetails>(actual);
         mockRepository.Verify(mock => mock.Get(It.IsAny<string>()), Times.Once);
     }
+
+    [Fact]
+    public void GetOrderList()
+    {
+        var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.List()).Returns([]);
+
+        var actual = new OrderService(mockRepository.Object).List();
+
+        Assert.IsAssignableFrom<IEnumerable<OrderDetails>>(actual);
+        mockRepository.Verify(mock => mock.List(), Times.Once);
+    }
 }

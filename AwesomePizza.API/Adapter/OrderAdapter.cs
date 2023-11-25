@@ -1,5 +1,4 @@
 ﻿using AwesomePizza.Ports.Input;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AwesomePizza.API;
 
@@ -22,5 +21,10 @@ public class OrderAdapter(IOrderService service)
         };
 
         return new Order(result.Id, status);
+    }
+
+    public IEnumerable<Order> List()
+    {
+        return service.List().Select(order => new Order(order.Id, OrderStatus.Todo));
     }
 }
