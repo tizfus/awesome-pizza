@@ -56,13 +56,13 @@ public class Functional
     {
         var (_, json) = await NewOrderAsync();
         
-        var response = await httpClient.PutAsync($"/api/admin/order/{json["id"]}",  JsonContent.Create(new { status = "Todo" }));
+        var response = await httpClient.PutAsync($"/api/admin/order/{json["id"]}",  JsonContent.Create(new { status = "Doing" }));
         response.EnsureSuccessStatusCode();
         
         var jsonContent = await response.Content.ReadFromJsonAsync<JsonObject>();
         Assert.NotNull(jsonContent);
         Assert.NotNull(jsonContent["id"]);
-        Assert.Equal("Todo", $"{jsonContent["status"]}");
+        Assert.Equal("Doing", $"{jsonContent["status"]}");
     }
 
     private async Task<(HttpResponseMessage, JsonObject)> NewOrderAsync()

@@ -2,5 +2,7 @@
 
 public enum OrderStatus
 {
-    Todo
+    Todo,
+    Doing,
+    Done
 }

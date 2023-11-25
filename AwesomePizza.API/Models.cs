@@ -5,5 +5,7 @@ public record Order(string Id, OrderStatus Status);
 
 public enum OrderStatus
 {
-    Todo
+    Todo,
+    Doing,
+    Done
 }
