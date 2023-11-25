@@ -11,8 +11,8 @@ public class OrderTest
     {
         var expectedId = $"{new Random().Next()}";
 
-        var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.Save(It.IsAny<string>())).Returns(new OrderId(expectedId));
+        var mockRepository = new Mock<IRepositoryOrder>(MockBehavior.Strict);
+        mockRepository.Setup(mock => mock.Save(It.IsAny<string>(), OrderStatus.Todo)).Returns(new OrderId(expectedId));
 
         var actual = new Order(mockRepository.Object).New();
 
@@ -25,8 +25,8 @@ public class OrderTest
         var createdOrderIds = new List<string>();
 
         var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.Save(It.IsAny<string>()))
-            .Callback<string>(createdOrderIds.Add)
+        mockRepository.Setup(mock => mock.Save(It.IsAny<string>(), It.IsAny<OrderStatus>()))
+            .Callback<string, OrderStatus>((id,_) => createdOrderIds.Add(id))
             .Returns(new OrderId("any"));
 
         var order = new Order(mockRepository.Object);

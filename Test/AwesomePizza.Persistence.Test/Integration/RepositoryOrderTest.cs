@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using AwesomePizza.Ports;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace AwesomePizza.Persistence.Test;
@@ -26,7 +27,7 @@ public class RepositoryOrderTest : IDisposable
     public void CreateOrder()
     {
         var orderId = $"{new Random().Next()}";
-        var actual = new RepositoryOrder(context).Save(orderId);
+        var actual = new RepositoryOrder(context).Save(orderId, OrderStatus.Todo);
         Assert.Equal(orderId, $"{actual}");
     }
 

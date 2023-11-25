@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AwesomePizza.API.Controllers;
 using AwesomePizza.Persistence;
 using AwesomePizza.Ports;
@@ -25,7 +26,6 @@ public class Program
         scope.ServiceProvider.GetRequiredService<Context>().Database.Migrate();
     }
 
-    // EF Core uses this method at design time to access the DbContext
     public static IHostBuilder CreateWebHostBuilder(string[] args)
         => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
@@ -36,7 +36,8 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

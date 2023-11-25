@@ -11,6 +11,6 @@ public class Order(IRepositoryOrder repository) : IOrder
 
     public OrderId New()
     {
-        return repository.Save($"{Guid.NewGuid()}");
+        return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);
     }
 }

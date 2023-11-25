@@ -2,5 +2,5 @@
 
 public interface IRepositoryOrder
 {
-    OrderId Save(string id);
+    OrderId Save(string id, OrderStatus status);
 }

@@ -8,11 +8,11 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 {
     private readonly Context context = context;
 
-    public OrderId Save(string id)
+    public OrderId Save(string id, OrderStatus status)
     {
-        context.Add(new Order { Id = id });
+        context.Add(new Order { Id = id, Status = $"{status}" });
         context.SaveChanges();
 
-        return new OrderId(context.Entry(new Order { Id = id }).Entity.Id);
+        return new OrderId(context.Entry(new Order { Id = id, Status = $"{status}" }).Entity.Id);
     }
 }

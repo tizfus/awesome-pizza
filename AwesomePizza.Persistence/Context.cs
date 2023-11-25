@@ -19,6 +19,9 @@ public partial class Context : DbContext
         modelBuilder.Entity<Order>().Property(entity => entity.Id)
             .HasColumnName("id")
             .HasMaxLength(36);
+
+        modelBuilder.Entity<Order>().Property(entity => entity.Status)
+            .HasColumnName("status");
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
