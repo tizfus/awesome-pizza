@@ -17,7 +17,16 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 
     public OrderId Save(string id, OrderStatus status)
     {
-        context.Add(new Order { Id = id, Status = $"{status}" });
+        var result = context.Orders.Find(id);
+        if(result != null)
+        {
+            result.Status = $"{status}";
+        }
+        else
+        {
+            context.Add(new Order { Id = id, Status = $"{status}" });
+        }
+
         context.SaveChanges();
 
         return Get(id).Id;

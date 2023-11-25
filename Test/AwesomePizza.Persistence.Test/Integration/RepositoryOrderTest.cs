@@ -12,7 +12,7 @@ public class RepositoryOrderTest : IDisposable
 
     public RepositoryOrderTest()
     {
-        var database = "sqlite.db";
+        var database = $"{new Random().Next()}-sqlite.db";
         connection = Connect(database);
         context = Setup();
         repository = new RepositoryOrder(context);
@@ -20,16 +20,31 @@ public class RepositoryOrderTest : IDisposable
 
     public void Dispose()
     {
+        context.Database.EnsureDeleted();
         this.context.Dispose();
         this.connection.Dispose();
     }
 
     [Fact]
-    public void CreateOrder()
+    public void SaveNewOrder()
     {
         var orderId = $"{new Random().Next()}";
         var actual = repository.Save(orderId, OrderStatus.Todo);
         Assert.Equal(orderId, $"{actual}");
+    }
+
+    [Fact]
+    public void UpdateOrder()
+    {
+        var orderId = $"{new Random().Next()}";
+        repository.Save(orderId, OrderStatus.Todo);
+        var firstActual = repository.Get(orderId);
+
+        repository.Save(orderId, OrderStatus.Todo);
+        var secondActual = repository.Get(orderId);
+
+        Assert.Equal(OrderStatus.Todo,firstActual.Status);
+        Assert.Equal(OrderStatus.Todo, secondActual.Status);
     }
 
     [Fact]
@@ -46,7 +61,7 @@ public class RepositoryOrderTest : IDisposable
     }
 
     [Fact]
-    public void CreateAndGetWithCorrectStatus()
+    public void SaveAndGetWithCorrectStatus()
     {
         foreach (var expected in Enum.GetValues<OrderStatus>())
         {
@@ -79,7 +94,7 @@ public class RepositoryOrderTest : IDisposable
         var context = new Context(
             new DbContextOptionsBuilder<Context>().UseSqlite(connection).Options
         );
-        
+
         context.Database.EnsureCreated();
         return context;
     }

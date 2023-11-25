@@ -23,4 +23,10 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
     {
         return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);
     }
+
+    public OrderDetails UpdateStatus(OrderId id, OrderStatus status)
+    {
+        repository.Save($"{id}", status);
+        return repository.Get($"{id}");
+    }
 }

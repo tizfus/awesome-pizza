@@ -51,6 +51,20 @@ public class Functional
         Assert.NotEmpty(jsonArray!);
     }
 
+    [Fact]
+    public async void AdminCanUpdateTheOrder()
+    {
+        var (_, json) = await NewOrderAsync();
+        
+        var response = await httpClient.PutAsync($"/api/admin/order/{json["id"]}",  JsonContent.Create(new { status = "Todo" }));
+        response.EnsureSuccessStatusCode();
+        
+        var jsonContent = await response.Content.ReadFromJsonAsync<JsonObject>();
+        Assert.NotNull(jsonContent);
+        Assert.NotNull(jsonContent["id"]);
+        Assert.Equal("Todo", $"{jsonContent["status"]}");
+    }
+
     private async Task<(HttpResponseMessage, JsonObject)> NewOrderAsync()
     {
         var response = await httpClient.PostAsync("/api/order", null);
