@@ -1,3 +1,3 @@
 ﻿namespace AwesomePizza.API;
 
-public record Order(string Id);
+public record OrderId(string Id);

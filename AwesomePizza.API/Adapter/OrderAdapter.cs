@@ -6,8 +6,8 @@ public class OrderAdapter(IOrder service)
 {
     private readonly IOrder service = service;
 
-    public Order Create() 
+    public OrderId Create() 
     {
-        return new Order($"{service.New()}");
+        return new OrderId($"{service.New()}");
     }
 }

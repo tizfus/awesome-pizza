@@ -8,7 +8,7 @@ public class OrderController(OrderAdapter adapter) : ControllerBase
 {
 
     [HttpPost]
-    public Order Create()
+    public OrderId Create()
     {
         return adapter.Create();
     }
