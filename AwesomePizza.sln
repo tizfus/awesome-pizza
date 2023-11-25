@@ -5,17 +5,17 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomePizza.API", "AwesomePizza.API\AwesomePizza.API.csproj", "{32CAB020-7D95-489D-9508-BA5450FCF0AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomePizza.API.Test", "AwesomePizza.API.Test\AwesomePizza.API.Test.csproj", "{C6FFDE1C-13DB-47BF-9E4F-4C5D4E9D3B34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomePizza.API.Test", "Test\AwesomePizza.API.Test\AwesomePizza.API.Test.csproj", "{C6FFDE1C-13DB-47BF-9E4F-4C5D4E9D3B34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core", "AwesomePizza.Core\AwesomePizza.Core.csproj", "{F968CEBD-D8A5-492C-9634-6E6705CBFBE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core.UnitTest", "AwesomePizza.Core.UnitTest\AwesomePizza.Core.UnitTest.csproj", "{B658DDE6-C2AF-4F86-A3B2-67FEBDD02A7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Core.UnitTest", "Test\AwesomePizza.Core.UnitTest\AwesomePizza.Core.UnitTest.csproj", "{B658DDE6-C2AF-4F86-A3B2-67FEBDD02A7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Ports", "AwesomePizza.Ports\AwesomePizza.Ports.csproj", "{0EA373C6-0E2C-410C-8589-F74CFA7C3D5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Persistence", "AwesomePizza.Persistence\AwesomePizza.Persistence.csproj", "{E30F4031-E2D0-4727-975D-5950A03D436E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Persistence.Test", "AwesomePizza.Persistence.Test\AwesomePizza.Persistence.Test.csproj", "{8A194B8C-FD61-4213-A17E-0388E1EDD6DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomePizza.Persistence.Test", "Test\AwesomePizza.Persistence.Test\AwesomePizza.Persistence.Test.csproj", "{8A194B8C-FD61-4213-A17E-0388E1EDD6DE}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution

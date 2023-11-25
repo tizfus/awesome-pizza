@@ -20,6 +20,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AwesomePizza.API\AwesomePizza.API.csproj" />
+    <ProjectReference Include="..\..\AwesomePizza.API\AwesomePizza.API.csproj" />
   </ItemGroup>
 </Project>
