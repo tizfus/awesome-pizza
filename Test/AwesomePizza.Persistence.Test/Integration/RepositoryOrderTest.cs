@@ -12,7 +12,6 @@ public class RepositoryOrderTest : IDisposable
     public RepositoryOrderTest()
     {
         var database = "sqlite.db";
-        CleanDatabase(database);
         connection = Connect(database);
         context = Setup();
     }
@@ -29,6 +28,18 @@ public class RepositoryOrderTest : IDisposable
         var orderId = $"{new Random().Next()}";
         var actual = new RepositoryOrder(context).Save(orderId, OrderStatus.Todo);
         Assert.Equal(orderId, $"{actual}");
+    }
+
+    [Fact]
+    public void GetOrder()
+    {
+        var orderId = $"{new Random().Next()}";
+        var status = OrderStatus.Todo;
+        new RepositoryOrder(context).Save(orderId, status);
+        var actual = new RepositoryOrder(context).Get(orderId);
+
+        Assert.Equal(orderId, $"{actual.Id}");
+        Assert.Equal(status, actual.Status);
     }
 
 
@@ -52,10 +63,5 @@ public class RepositoryOrderTest : IDisposable
         connection.Open();
 
         return connection;
-    }
-
-    private void CleanDatabase(string database)
-    {
-        File.Delete($"./{database}");
     }
 }

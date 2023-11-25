@@ -2,5 +2,6 @@
 
 public interface IOrder
 {
+    OrderDetails Get(OrderId id);
     OrderId New();
 }

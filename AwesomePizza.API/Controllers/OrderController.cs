@@ -12,4 +12,10 @@ public class OrderController(OrderAdapter adapter) : ControllerBase
     {
         return adapter.Create();
     }
+
+    [HttpGet("{id}")]
+    public Order Get(string id)
+    {
+        return adapter.Get(id);
+    }
 }

@@ -9,6 +9,11 @@ public class Order(IRepositoryOrder repository) : IOrder
 {
     private readonly IRepositoryOrder repository = repository;
 
+    public OrderDetails Get(OrderId id)
+    {
+        return repository.Get($"{id}");
+    }
+
     public OrderId New()
     {
         return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);

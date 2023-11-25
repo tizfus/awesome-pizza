@@ -38,4 +38,16 @@ public class OrderTest
 
         Assert.Equal(createdOrderIds.Count, createdOrderIds.Distinct().Count());
     }
+
+    [Fact]
+    public void GetOrderDetail()
+    {
+        var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.Get(It.IsAny<string>())).Returns(new OrderDetails("any id 1", default));
+
+        var actual = new Order(mockRepository.Object).Get("any id 2");
+
+        Assert.IsType<OrderDetails>(actual);
+        mockRepository.Verify(mock => mock.Get(It.IsAny<string>()), Times.Once);
+    }
 }

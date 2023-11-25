@@ -23,6 +23,20 @@ public class Functional
         Assert.NotNull(jsonContent["id"]);
     }
 
+    [Fact]
+    public async void CustomerCanViewTheirOrder()
+    {
+        var (_, json) = await NewOrderAsync();
+
+        var response = await httpClient.GetAsync($"/api/order/{json["id"]}");
+        response.EnsureSuccessStatusCode();
+        
+        var jsonContent = await response.Content.ReadFromJsonAsync<JsonObject>();
+        Assert.NotNull(jsonContent);
+        Assert.NotNull(jsonContent["id"]);
+        Assert.NotNull(jsonContent["status"]);
+    }
+
     private async Task<(HttpResponseMessage, JsonObject)> NewOrderAsync()
     {
         var response = await httpClient.PostAsync("/api/order", null);
