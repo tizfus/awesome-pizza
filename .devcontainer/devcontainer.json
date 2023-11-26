@@ -17,6 +17,10 @@
 		"source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
 	],
 
+	"remoteEnv": {
+		"PATH": "${containerEnv:PATH}:/root/.dotnet/tools"
+	},
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -29,7 +33,7 @@
 	// }
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "apt update && apt install ssh-client && dotnet tool install --global dotnet-ef"
+	"postCreateCommand": "apt update && apt -y install ssh-client && dotnet tool install --global dotnet-ef"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
