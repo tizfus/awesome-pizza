@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "create migration",
+            "label": "Create migration",
             "command": "dotnet-ef",
             "type": "process",
             "args": [
@@ -17,7 +17,20 @@
             "group": "build"
         },
         {
-            "label": "run API",
+            "label": "Run tests",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "test",
+                "-v","q",
+                "1>", "/dev/null"
+            ],
+
+            "group": "test",
+            
+        },
+        {
+            "label": "Run API",
             "command": "dotnet",
             "type": "process",
             "args": [
