@@ -18,10 +18,15 @@ public partial class Context : DbContext
         OnModelCreatingPartial(modelBuilder);
         modelBuilder.Entity<Order>().Property(entity => entity.Id)
             .HasColumnName("id")
-            .HasMaxLength(36);
+            .IsRequired();
 
         modelBuilder.Entity<Order>().Property(entity => entity.Status)
-            .HasColumnName("status");
+            .HasColumnName("status")
+            .IsRequired();
+
+        modelBuilder.Entity<Order>().Property(entity => entity.CreatedAt)
+            .HasColumnName("created_at")
+            .IsRequired();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

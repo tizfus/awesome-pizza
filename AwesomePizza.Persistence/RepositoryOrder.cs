@@ -55,7 +55,8 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return new Entity.Order 
         { 
             Id = $"{order.Id}", 
-            Status = $"{order.Status}" 
+            Status = $"{order.Status}",
+            CreatedAt = DateTime.Now
         };
     }
 }
