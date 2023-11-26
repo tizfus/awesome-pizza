@@ -20,7 +20,7 @@ public class OrderAdapter(IOrderService service)
 
     public IEnumerable<Order> List()
     {
-        return service.List();
+        return service.Pending();
     }
 
     public Order UpdateStatus(string id, UpdateRequest request)

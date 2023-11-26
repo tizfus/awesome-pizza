@@ -14,9 +14,9 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
         return repository.Get($"{id}");
     }
 
-    public IEnumerable<Order> List()
+    public IEnumerable<Order> Pending()
     {
-        return repository.List();
+        return repository.List().Where(order => order.IsPending());
     }
 
     public OrderId New()

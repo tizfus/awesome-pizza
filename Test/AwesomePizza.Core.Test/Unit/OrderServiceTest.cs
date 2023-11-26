@@ -52,15 +52,19 @@ public class OrderServiceTest
     }
 
     [Fact]
-    public void GetOrderList()
+    public void PendingOrder()
     {
         var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.List()).Returns([]);
+        mockRepository.Setup(mock => mock.List()).Returns([
+            new Order("any id 1", OrderStatus.Doing),
+            new Order("any id 2", OrderStatus.Done),
+            new Order("any id 3", OrderStatus.Todo),
+        ]);
 
-        var actual = new OrderService(mockRepository.Object).List();
+        var actual = new OrderService(mockRepository.Object).Pending();
 
-        Assert.IsAssignableFrom<IEnumerable<Order>>(actual);
-        mockRepository.Verify(mock => mock.List(), Times.Once);
+        Assert.Equal(2, actual.Count());
+        Assert.DoesNotContain(actual, order => order.Id == "any id 2");
     }
 
     [Fact]
