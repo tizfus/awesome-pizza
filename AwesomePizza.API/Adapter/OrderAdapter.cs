@@ -1,5 +1,7 @@
 ﻿using AwesomePizza.API.Models;
 using AwesomePizza.Ports.Input;
+using Microsoft.AspNetCore.Http.HttpResults;
+using static AwesomePizza.Ports.Optional;
 
 namespace AwesomePizza.API;
 
@@ -12,14 +14,9 @@ public class OrderAdapter(IOrderService service)
         return new ($"{service.New()}");
     }
 
-    public Order? Get(string id)
+    public Ports.Optional<Order> Get(string id)
     {
-        var result = service.Get(id);
-        if(result is null)
-        {
-            return null;
-        }
-        return ToOrderModel(result);
+        return service.Get(id).Map(ToOrderModel);
     }
 
     public IEnumerable<Order> List()

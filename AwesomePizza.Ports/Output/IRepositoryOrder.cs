@@ -2,7 +2,8 @@
 
 public interface IRepositoryOrder
 {
-    Order? Get(OrderId id);
+    bool Exists(OrderId orderId);
+    Order Get(OrderId id);
     IEnumerable<Order> List();
     OrderId Save(Order order);
 }

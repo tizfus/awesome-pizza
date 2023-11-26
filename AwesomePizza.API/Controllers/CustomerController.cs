@@ -1,5 +1,6 @@
 using AwesomePizza.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using SQLitePCL;
 
 namespace AwesomePizza.API.Controllers;
 
@@ -17,11 +18,10 @@ public class CustomerController(OrderAdapter adapter) : ControllerBase
     [HttpGet("order/{id}")]
     public IActionResult Get(string id)
     {
-        var result = adapter.Get(id);
-        if(result is null)
+        return adapter.Get(id) switch
         {
-            return NotFound(new { message = "Order not found" });
-        }
-        return Ok(result);
+            { Succeeded: true, Value: var result } => Ok(result),
+            _ => NotFound(new { message = "Order not found" })
+        };
     }
 }

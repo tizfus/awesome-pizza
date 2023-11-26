@@ -1,21 +1,20 @@
 ﻿using AwesomePizza.Ports;
 using AwesomePizza.Ports.Output;
+using static AwesomePizza.Ports.Optional;
 
 namespace AwesomePizza.Persistence;
 
 public class RepositoryOrder(Context context) : IRepositoryOrder
 {
+
     private readonly Context context = context;
 
-    public Order? Get(OrderId id)
+    public bool Exists(OrderId id) => Find(id) is not null;
+
+    public Order Get(OrderId id)
     {
-        var result = Find(id);
-        if(result is null)
-        {
-            return null;
-        }
-        
-        return new (result.Id, ToOrderStatus(result.Status));
+        var order = Find(id)!;
+        return new Order(order.Id, ToOrderStatus(order.Status));
     }
 
     public OrderId Save(Order order)
@@ -32,7 +31,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 
         context.SaveChanges();
 
-        return Get(order.Id).Id;
+        return Find(order.Id)!.Id;
     }
 
     public IEnumerable<Order> List()

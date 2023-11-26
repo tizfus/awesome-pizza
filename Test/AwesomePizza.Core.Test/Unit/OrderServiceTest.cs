@@ -40,15 +40,28 @@ public class OrderServiceTest
     }
 
     [Fact]
-    public void GetOrderDetail()
+    public void GetOrder()
     {
         var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.Exists(It.IsAny<OrderId>())).Returns(true);
         mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
 
         var actual = new OrderService(mockRepository.Object).Get("any id 2");
 
-        Assert.IsType<Order>(actual);
+        Assert.True(actual.Succeeded);
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
+    }
+
+    [Fact]
+    public void GetNotExistentOrder()
+    {
+        var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.Exists(It.IsAny<OrderId>())).Returns(false);
+
+        var actual = new OrderService(mockRepository.Object).Get("any id 2");
+
+        Assert.False(actual.Succeeded);
+        mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Never);
     }
 
     [Fact]
