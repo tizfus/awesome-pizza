@@ -81,9 +81,10 @@ public class OrderServiceTest
     }
 
     [Fact]
-    public void UpdateStatus()
+    public void Update()
     {
         var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(true);
         mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>()));
         mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
 
@@ -92,5 +93,17 @@ public class OrderServiceTest
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Once);
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
+    }
+
+    [Fact]
+    public void UpdateNotExistentOrder()
+    {
+        var mockRepository = new Mock<IRepositoryOrder>();
+        mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(false);
+
+        var actual = new OrderService(mockRepository.Object).Update(new Order("any id 2", default));
+
+        Assert.NotNull(actual);
+        mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Never);
     }
 }

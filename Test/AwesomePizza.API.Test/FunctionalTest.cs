@@ -86,6 +86,15 @@ public class FunctionalTest : IDisposable
         Assert.Equal("Doing", $"{jsonContent["status"]}");
     }
 
+    [Fact]
+    public async void AdminReceives404WhenUpdateANonExistentOrder()
+    {       
+        var response = await httpClient.PutAsync($"/api/admin/order/wrong_id",  JsonContent.Create(new { status = "Doing" }));
+        
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+
     private async Task<(HttpResponseMessage, JsonObject)> NewOrderAsync()
     {
         var response = await httpClient.PostAsync("/api/order", null);

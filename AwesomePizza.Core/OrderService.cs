@@ -30,9 +30,15 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
         return repository.Save(new Order($"{Guid.NewGuid()}", OrderStatus.Todo));
     }
 
-    public Order Update(Order order)
+    public Result<Order> Update(Order order)
     {
-        repository.Save(order);
-        return repository.Get(order.Id);
+        if(repository.Exists(order.Id))
+        {
+            repository.Save(order);
+            return Success(repository.Get(order.Id));
+        }
+        
+        return Fail<Order>();
+        
     }
 }

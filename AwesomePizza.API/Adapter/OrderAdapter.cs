@@ -22,11 +22,9 @@ public class OrderAdapter(IOrderService service)
         return service.Pending().Select(ToOrderModel);
     }
 
-    public Order UpdateStatus(string id, UpdateRequest request)
+    public Ports.Result<Order> UpdateStatus(string id, UpdateRequest request)
     {
-        return ToOrderModel(
-            service.Update(new Ports.Order(id, request.Status))
-        );
+        return service.Update(new Ports.Order(id, request.Status)).Map(ToOrderModel);
     }
 
     private Order ToOrderModel(Ports.Order order)
