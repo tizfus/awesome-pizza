@@ -7,22 +7,22 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 {
     private readonly Context context = context;
 
-    public Order Get(string id)
+    public Order Get(OrderId id)
     {
-        var result = context.Orders.Find(id);
+        var result = Find(id);
         return new (result.Id, ToOrderStatus(result.Status));
     }
 
-    public OrderId Save(string id, OrderStatus status)
+    public OrderId Save(OrderId id, OrderStatus status)
     {
-        var result = context.Orders.Find(id);
+        var result = Find(id);
         if(result != null)
         {
             result.Status = $"{status}";
         }
         else
         {
-            context.Add(new Entity.Order { Id = id, Status = $"{status}" });
+            context.Add(new Entity.Order { Id = $"{id}", Status = $"{status}" });
         }
 
         context.SaveChanges();
@@ -35,6 +35,11 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return context.Orders
             .Select(order => new Order(order.Id, ToOrderStatus(order.Status)))
             .ToList();
+    }
+
+    private Entity.Order? Find(OrderId id)
+    {
+        return context.Orders.Find($"{id}");
     }
     
     private static OrderStatus ToOrderStatus(string status)

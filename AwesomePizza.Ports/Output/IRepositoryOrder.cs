@@ -2,7 +2,7 @@
 
 public interface IRepositoryOrder
 {
-    Order Get(string id);
+    Order Get(OrderId id);
     IEnumerable<Order> List();
-    OrderId Save(string id, OrderStatus status);
+    OrderId Save(OrderId id, OrderStatus status);
 }
