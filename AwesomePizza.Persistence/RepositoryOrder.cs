@@ -7,9 +7,14 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 {
     private readonly Context context = context;
 
-    public Order Get(OrderId id)
+    public Order? Get(OrderId id)
     {
         var result = Find(id);
+        if(result is null)
+        {
+            return null;
+        }
+        
         return new (result.Id, ToOrderStatus(result.Status));
     }
 

@@ -15,8 +15,13 @@ public class CustomerController(OrderAdapter adapter) : ControllerBase
     }
 
     [HttpGet("order/{id}")]
-    public Order Get(string id)
+    public IActionResult Get(string id)
     {
-        return adapter.Get(id);
+        var result = adapter.Get(id);
+        if(result is null)
+        {
+            return NotFound(new { message = "Order not found" });
+        }
+        return Ok(result);
     }
 }

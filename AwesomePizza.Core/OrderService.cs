@@ -9,7 +9,7 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
 {
     private readonly IRepositoryOrder repository = repository;
 
-    public Order Get(OrderId id)
+    public Order? Get(OrderId id)
     {
         return repository.Get($"{id}");
     }

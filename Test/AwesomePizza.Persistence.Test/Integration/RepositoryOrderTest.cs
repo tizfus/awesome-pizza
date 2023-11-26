@@ -61,6 +61,14 @@ public class RepositoryOrderTest : IDisposable
     }
 
     [Fact]
+    public void GetOrderDoesNotExists()
+    {
+        var actual = repository.Get("wrong_id");    
+        
+        Assert.Null(actual);
+    }
+
+    [Fact]
     public void SaveAndGetWithCorrectStatus()
     {
         foreach (var expected in Enum.GetValues<OrderStatus>())

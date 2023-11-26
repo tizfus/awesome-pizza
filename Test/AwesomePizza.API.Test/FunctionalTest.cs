@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -35,6 +36,14 @@ public class FunctionalTest
         Assert.NotNull(jsonContent);
         Assert.NotNull(jsonContent["id"]);
         Assert.NotNull(jsonContent["status"]);
+    }
+
+    [Fact]
+    public async void CustomerReceives404WhenViewANonExistentOrder()
+    {
+        var response = await httpClient.GetAsync($"/api/order/wrong_id");
+        
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]

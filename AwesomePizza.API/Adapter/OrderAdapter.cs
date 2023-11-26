@@ -7,30 +7,35 @@ public class OrderAdapter(IOrderService service)
 {
     private readonly IOrderService service = service;
 
-    public Models.OrderId Create() 
+    public OrderId Create() 
     {
         return new ($"{service.New()}");
     }
 
-    public Models.Order Get(string id)
+    public Order? Get(string id)
     {
-        return ToOrderModel(service.Get(id));
+        var result = service.Get(id);
+        if(result is null)
+        {
+            return null;
+        }
+        return ToOrderModel(result);
     }
 
-    public IEnumerable<Models.Order> List()
+    public IEnumerable<Order> List()
     {
         return service.Pending().Select(ToOrderModel);
     }
 
-    public Models.Order UpdateStatus(string id, UpdateRequest request)
+    public Order UpdateStatus(string id, UpdateRequest request)
     {
         return ToOrderModel(
             service.Update(new Ports.Order(id, request.Status))
         );
     }
 
-    private Models.Order ToOrderModel(Ports.Order order)
+    private Order ToOrderModel(Ports.Order order)
     {
-        return new Models.Order($"{order.Id}", order.Status);
+        return new Order($"{order.Id}", order.Status);
     }
 }
