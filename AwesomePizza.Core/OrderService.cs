@@ -1,6 +1,6 @@
 ﻿
 using AwesomePizza.Ports;
-using static AwesomePizza.Ports.Optional;
+using static AwesomePizza.Ports.Result;
 using AwesomePizza.Ports.Input;
 using AwesomePizza.Ports.Output;
 
@@ -10,7 +10,7 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
 {
     private readonly IRepositoryOrder repository = repository;
 
-    public Optional<Order> Get(OrderId id)
+    public Result<Order> Get(OrderId id)
     {
         if(repository.Exists(id))
         {

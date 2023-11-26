@@ -2,7 +2,7 @@
 
 public interface IOrderService
 {
-    Optional<Order> Get(OrderId id);
+    Result<Order> Get(OrderId id);
     IEnumerable<Order> Pending();
     OrderId New();
     Order Update(Order order);

@@ -1,6 +1,5 @@
 ﻿using AwesomePizza.Ports;
 using AwesomePizza.Ports.Output;
-using static AwesomePizza.Ports.Optional;
 
 namespace AwesomePizza.Persistence;
 
