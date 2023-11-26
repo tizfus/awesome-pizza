@@ -77,7 +77,7 @@ public class OrderServiceTest
         var actual = new OrderService(mockRepository.Object).Update(new Order("any id 2", default));
 
         Assert.NotNull(actual);
-        mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Exactly(2));
+        mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Once);
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
     }
 }

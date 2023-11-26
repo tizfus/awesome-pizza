@@ -1,5 +1,4 @@
 ﻿using AwesomePizza.API.Models;
-using AwesomePizza.Ports;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AwesomePizza.API.Controllers;

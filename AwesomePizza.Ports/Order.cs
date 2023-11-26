@@ -1,6 +1,6 @@
 ﻿namespace AwesomePizza.Ports;
 
-public record Order(string Id, OrderStatus Status)
+public record Order(OrderId Id, OrderStatus Status)
 {
     public OrderStatus Status { get; set; } = Status;
 

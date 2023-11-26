@@ -1,5 +1,4 @@
 ﻿using AwesomePizza.API.Models;
-using AwesomePizza.Ports;
 using AwesomePizza.Ports.Input;
 
 namespace AwesomePizza.API;
@@ -13,18 +12,25 @@ public class OrderAdapter(IOrderService service)
         return new ($"{service.New()}");
     }
 
-    public Order Get(string id)
+    public Models.Order Get(string id)
     {
-        return service.Get(id);
+        return ToOrderModel(service.Get(id));
     }
 
-    public IEnumerable<Order> List()
+    public IEnumerable<Models.Order> List()
     {
-        return service.Pending();
+        return service.Pending().Select(ToOrderModel);
     }
 
-    public Order UpdateStatus(string id, UpdateRequest request)
+    public Models.Order UpdateStatus(string id, UpdateRequest request)
     {
-        return service.Update(new Order(id, request.Status));
+        return ToOrderModel(
+            service.Update(new Ports.Order(id, request.Status))
+        );
+    }
+
+    private Models.Order ToOrderModel(Ports.Order order)
+    {
+        return new Models.Order($"{order.Id}", order.Status);
     }
 }

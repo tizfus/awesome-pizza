@@ -15,7 +15,7 @@ public class CustomerController(OrderAdapter adapter) : ControllerBase
     }
 
     [HttpGet("order/{id}")]
-    public Ports.Order Get(string id)
+    public Order Get(string id)
     {
         return adapter.Get(id);
     }

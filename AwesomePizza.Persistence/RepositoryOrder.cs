@@ -22,7 +22,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         }
         else
         {
-            context.Add(new Entity.Order { Id = order.Id, Status = $"{order.Status}" });
+            context.Add(ToEntity(order));
         }
 
         context.SaveChanges();
@@ -45,5 +45,14 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
     private static OrderStatus ToOrderStatus(string status)
     {
         return Enum.Parse<OrderStatus>(status);
+    }
+
+    private static Entity.Order ToEntity(Order order)
+    {
+        return new Entity.Order 
+        { 
+            Id = $"{order.Id}", 
+            Status = $"{order.Status}" 
+        };
     }
 }
