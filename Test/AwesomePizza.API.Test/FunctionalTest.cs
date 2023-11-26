@@ -39,7 +39,7 @@ public class FunctionalTest
     }
 
     [Fact]
-    public async void CustomerReceives404WhenViewANonExistentOrder()
+    public async void CustomerReceives404WhenViewANotExistentOrder()
     {
         var response = await httpClient.GetAsync($"/api/order/wrong_id");
         

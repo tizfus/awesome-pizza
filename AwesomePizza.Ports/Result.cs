@@ -10,9 +10,9 @@ public record class Result<T> (T? Value)
     public bool Succeeded { get; } = Value is not null;
 
 
-    public Result<T1> Map<T1>(Func<T, T1> map)
+    public Result<T1> Map<T1>(Func<T, T1> map) where T1 : class
     {
-        return Succeeded ? new Result<T1>(map(Value!)) : new (null!);
+        return Succeeded ? new (map(Value!)) : new ((T1?)null);
     }
 }
 
