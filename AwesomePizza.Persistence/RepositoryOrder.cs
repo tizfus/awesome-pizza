@@ -13,21 +13,21 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return new (result.Id, ToOrderStatus(result.Status));
     }
 
-    public OrderId Save(OrderId id, OrderStatus status)
+    public OrderId Save(Order order)
     {
-        var result = Find(id);
+        var result = Find(order.Id);
         if(result != null)
         {
-            result.Status = $"{status}";
+            result.Status = $"{order.Status}";
         }
         else
         {
-            context.Add(new Entity.Order { Id = $"{id}", Status = $"{status}" });
+            context.Add(new Entity.Order { Id = order.Id, Status = $"{order.Status}" });
         }
 
         context.SaveChanges();
 
-        return Get(id).Id;
+        return Get(order.Id).Id;
     }
 
     public IEnumerable<Order> List()

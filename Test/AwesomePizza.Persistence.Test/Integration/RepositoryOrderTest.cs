@@ -29,7 +29,7 @@ public class RepositoryOrderTest : IDisposable
     public void SaveNewOrder()
     {
         var orderId = $"{new Random().Next()}";
-        var actual = repository.Save(orderId, OrderStatus.Todo);
+        var actual = repository.Save(new Order(orderId, OrderStatus.Todo));
         Assert.Equal(orderId, $"{actual}");
     }
 
@@ -37,10 +37,10 @@ public class RepositoryOrderTest : IDisposable
     public void UpdateOrder()
     {
         var orderId = $"{new Random().Next()}";
-        repository.Save(orderId, OrderStatus.Todo);
+        repository.Save(new Order(orderId, OrderStatus.Todo));
         var firstActual = repository.Get(orderId);
 
-        repository.Save(orderId, OrderStatus.Done);
+        repository.Save(new Order(orderId, OrderStatus.Done));
         var secondActual = repository.Get(orderId);
 
         Assert.Equal(OrderStatus.Todo,firstActual.Status);
@@ -52,7 +52,7 @@ public class RepositoryOrderTest : IDisposable
     {
         var orderId = $"{new Random().Next()}";
         var status = OrderStatus.Todo;
-        repository.Save(orderId, status);
+        repository.Save(new Order(orderId, status));
         
         var actual = repository.Get(orderId);
 
@@ -66,7 +66,7 @@ public class RepositoryOrderTest : IDisposable
         foreach (var expected in Enum.GetValues<OrderStatus>())
         {
             var orderId = $"{new Random().Next()}";
-            repository.Save(orderId, expected);
+            repository.Save(new Order(orderId, expected));
             
             var actual = repository.Get(orderId);
 
@@ -78,10 +78,10 @@ public class RepositoryOrderTest : IDisposable
     public void ListAllOrders()
     {
         var random = new Random();
-        repository.Save($"{random.Next()}", OrderStatus.Todo);
-        repository.Save($"{random.Next()}", OrderStatus.Todo);
-        repository.Save($"{random.Next()}", OrderStatus.Todo);
-        repository.Save($"{random.Next()}", OrderStatus.Todo);
+        repository.Save(new Order($"{random.Next()}", OrderStatus.Todo));
+        repository.Save(new Order($"{random.Next()}", OrderStatus.Todo));
+        repository.Save(new Order($"{random.Next()}", OrderStatus.Todo));
+        repository.Save(new Order($"{random.Next()}", OrderStatus.Todo));
 
         var actual = repository.List();
 

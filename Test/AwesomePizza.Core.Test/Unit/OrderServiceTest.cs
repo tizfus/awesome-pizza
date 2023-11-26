@@ -12,7 +12,7 @@ public class OrderServiceTest
         var expectedId = $"{new Random().Next()}";
 
         var mockRepository = new Mock<IRepositoryOrder>(MockBehavior.Strict);
-        mockRepository.Setup(mock => mock.Save(It.IsAny<OrderId>(), OrderStatus.Todo)).Returns(new OrderId(expectedId));
+        mockRepository.Setup(mock => mock.Save(It.Is<Order>(order => order.Status == OrderStatus.Todo))).Returns(new OrderId(expectedId));
 
         var actual = new OrderService(mockRepository.Object).New();
 
@@ -25,8 +25,8 @@ public class OrderServiceTest
         var createdOrderIds = new List<OrderId>();
 
         var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.Save(It.IsAny<OrderId>(), It.IsAny<OrderStatus>()))
-            .Callback<OrderId, OrderStatus>((id,_) => createdOrderIds.Add(id))
+        mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>()))
+            .Callback<Order>(order => createdOrderIds.Add(order.Id))
             .Returns(new OrderId("any"));
 
         var order = new OrderService(mockRepository.Object);
@@ -71,13 +71,13 @@ public class OrderServiceTest
     public void UpdateStatus()
     {
         var mockRepository = new Mock<IRepositoryOrder>();
-        mockRepository.Setup(mock => mock.Save(It.IsAny<OrderId>(), It.IsAny<OrderStatus>()));
+        mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>()));
         mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
 
-        var actual = new OrderService(mockRepository.Object).UpdateStatus("any id 2", default);
+        var actual = new OrderService(mockRepository.Object).Update(new Order("any id 2", default));
 
         Assert.NotNull(actual);
-        mockRepository.Verify(mock => mock.Save(It.IsAny<OrderId>(), It.IsAny<OrderStatus>()), Times.Once);
+        mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Exactly(2));
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
     }
 }

@@ -25,6 +25,6 @@ public class OrderAdapter(IOrderService service)
 
     public Order UpdateStatus(string id, UpdateRequest request)
     {
-        return service.UpdateStatus(id, request.Status);
+        return service.Update(new Order(id, request.Status));
     }
 }

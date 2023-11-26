@@ -21,12 +21,12 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
 
     public OrderId New()
     {
-        return repository.Save($"{Guid.NewGuid()}", OrderStatus.Todo);
+        return repository.Save(new Order($"{Guid.NewGuid()}", OrderStatus.Todo));
     }
 
-    public Order UpdateStatus(OrderId id, OrderStatus status)
+    public Order Update(Order order)
     {
-        repository.Save($"{id}", status);
-        return repository.Get($"{id}");
+        repository.Save(order);
+        return repository.Get(order.Id);
     }
 }
