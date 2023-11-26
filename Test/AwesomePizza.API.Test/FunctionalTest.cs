@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace AwesomePizza.API.Test;
 
-public class Functional
+public class FunctionalTest
 {
     private readonly HttpClient httpClient;
 
-    public Functional()
+    public FunctionalTest()
     {
         httpClient = new WebApplicationFactory<Program>().CreateClient();
     }
