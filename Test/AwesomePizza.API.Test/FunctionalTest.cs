@@ -1,17 +1,28 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
+using AwesomePizza.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomePizza.API.Test;
 
-public class FunctionalTest
+public class FunctionalTest : IDisposable
 {
     private readonly HttpClient httpClient;
+    private readonly DbContext dbContext;
 
     public FunctionalTest()
     {
-        httpClient = new WebApplicationFactory<Program>().CreateClient();
+        var factory = new WebApplicationFactory<Program>();
+        dbContext = factory.Services.CreateScope().ServiceProvider.GetService<Context>()!;
+        httpClient = factory.CreateClient();
+    }
+
+    public void Dispose()
+    {
+        dbContext.Database.EnsureDeleted();
     }
 
     [Fact]
@@ -80,5 +91,4 @@ public class FunctionalTest
         var jsonContent = await response.Content.ReadFromJsonAsync<JsonObject>();
         return (response, jsonContent!);
     }
-
 }
