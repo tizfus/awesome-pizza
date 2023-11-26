@@ -6,15 +6,23 @@ namespace AwesomePizza.Core.Test.Unit;
 
 public class OrderServiceTest
 {
+    private readonly Mock<IRepositoryOrder> mockRepository;
+    private readonly OrderService service;
+
+    public OrderServiceTest()
+    {
+        mockRepository = new Mock<IRepositoryOrder>(MockBehavior.Strict);
+        service = new OrderService(mockRepository.Object);
+    }
+
     [Fact]
     public void CreateAOrder()
     {
         var expectedId = $"{new Random().Next()}";
 
-        var mockRepository = new Mock<IRepositoryOrder>(MockBehavior.Strict);
         mockRepository.Setup(mock => mock.Save(It.Is<Order>(order => order.Status == OrderStatus.Todo))).Returns(new OrderId(expectedId));
 
-        var actual = new OrderService(mockRepository.Object).New();
+        var actual = service.New();
 
         Assert.Equal(expectedId, $"{actual}");
     }
@@ -24,12 +32,11 @@ public class OrderServiceTest
     {
         var createdOrderIds = new List<OrderId>();
 
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>()))
             .Callback<Order>(order => createdOrderIds.Add(order.Id))
             .Returns(new OrderId("any"));
 
-        var order = new OrderService(mockRepository.Object);
+        var order = service;
 
         for (int index = 0; index < 100; index++)
         {
@@ -42,11 +49,10 @@ public class OrderServiceTest
     [Fact]
     public void GetOrder()
     {
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Exists(It.IsAny<OrderId>())).Returns(true);
         mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
 
-        var actual = new OrderService(mockRepository.Object).Get("any id 2");
+        var actual = service.Get("any id 2");
 
         Assert.True(actual.Succeeded);
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
@@ -55,10 +61,9 @@ public class OrderServiceTest
     [Fact]
     public void GetNotExistentOrder()
     {
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Exists(It.IsAny<OrderId>())).Returns(false);
 
-        var actual = new OrderService(mockRepository.Object).Get("any id 2");
+        var actual = service.Get("any id 2");
 
         Assert.False(actual.Succeeded);
         mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Never);
@@ -67,14 +72,13 @@ public class OrderServiceTest
     [Fact]
     public void PendingOrder()
     {
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.List()).Returns([
             new Order("any id 1", OrderStatus.Doing),
             new Order("any id 2", OrderStatus.Done),
             new Order("any id 3", OrderStatus.Todo),
         ]);
 
-        var actual = new OrderService(mockRepository.Object).Pending();
+        var actual = service.Pending();
 
         Assert.Equal(2, actual.Count());
         Assert.DoesNotContain(actual, order => order.Id == "any id 2");
@@ -83,12 +87,11 @@ public class OrderServiceTest
     [Fact]
     public void Update()
     {
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(true);
-        mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>()));
+        mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>())).Returns("any id");
         mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
 
-        var actual = new OrderService(mockRepository.Object).Update(new Order("any id 2", default));
+        var actual = service.Update(new Order("any id 2", default));
 
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Once);
@@ -98,10 +101,9 @@ public class OrderServiceTest
     [Fact]
     public void UpdateNotExistentOrder()
     {
-        var mockRepository = new Mock<IRepositoryOrder>();
         mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(false);
 
-        var actual = new OrderService(mockRepository.Object).Update(new Order("any id 2", default));
+        var actual = service.Update(new Order("any id 2", default));
 
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Never);
