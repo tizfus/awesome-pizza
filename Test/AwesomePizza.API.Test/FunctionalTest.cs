@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomePizza.API.Test;
 
+[Collection("Non-Parallel Collection")]
 public class FunctionalTest : IDisposable
 {
     private readonly HttpClient httpClient;
@@ -92,3 +93,6 @@ public class FunctionalTest : IDisposable
         return (response, jsonContent!);
     }
 }
+
+[CollectionDefinition("Non-Parallel", DisableParallelization = true)]
+public class TestClassNonParallelCollectionDefinition { }
