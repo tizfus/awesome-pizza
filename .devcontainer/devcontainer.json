@@ -8,13 +8,14 @@
 		"vscode": {
 			"extensions": [
 				"ms-dotnettools.csdevkit",
-				"ms-dotnettools.csharp"
+				"ms-dotnettools.csharp",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
 
 	"mounts": [
-		"source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+		"source=${env:HOME}${env:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
 	],
 
 	"remoteEnv": {
