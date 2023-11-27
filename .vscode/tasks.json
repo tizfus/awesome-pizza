@@ -36,6 +36,7 @@
             "args": [
                 "run",
                 "--project", "${workspaceFolder}/AwesomePizza.API",
+                "--launch-profile", "staging"
             ],
 
             "group": "build"
