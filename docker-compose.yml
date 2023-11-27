@@ -3,7 +3,7 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:8.0
     command: dotnet run --project AwesomePizza.API --launch-profile Staging
     ports:
-      - 5233:5233
+      - 80:80
     working_dir: /app
     volumes:
       - ./:/app
