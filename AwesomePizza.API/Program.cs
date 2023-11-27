@@ -1,10 +1,7 @@
 using System.Text.Json.Serialization;
-using AwesomePizza.API.Controllers;
 using AwesomePizza.Persistence;
-using AwesomePizza.Ports;
 using AwesomePizza.Ports.Input;
 using AwesomePizza.Ports.Output;
-using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AwesomePizza.API;
@@ -32,7 +29,7 @@ public class Program
 
 }
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -42,7 +39,7 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddDbContext<Context>(options => options.UseSqlite("Data Source=awesome-pizza.db"));
+        services.AddDbContext<Context>(options => options.UseSqlite(configuration.GetConnectionString("Main")));
         services.AddScoped<IRepositoryOrder, RepositoryOrder>();
         services.AddScoped<IOrderService, Core.OrderService>();
         services.AddScoped<OrderAdapter>();
