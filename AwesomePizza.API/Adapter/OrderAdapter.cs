@@ -24,7 +24,7 @@ public class OrderAdapter(IOrderService service)
 
     public Ports.Result<Order> UpdateStatus(string id, UpdateRequest request)
     {
-        return service.Update(id, request.Status).Map(ToOrderModel);
+        return service.UpdateStatus(id, request.Status).Map(ToOrderModel);
     }
 
     private Order ToOrderModel(Ports.Order order)

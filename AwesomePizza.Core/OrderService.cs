@@ -32,12 +32,11 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
         return repository.Save(new Order($"{Guid.NewGuid()}", OrderStatus.Todo, DateTime.Now));
     }
 
-    public Result<Order> Update(OrderId id, OrderStatus status)
+    public Result<Order> UpdateStatus(OrderId id, OrderStatus status)
     {
         if(repository.Exists(id))
         {
-            var oldOrder = repository.Get(id);
-            repository.Save(new (oldOrder.Id, status, oldOrder.CreatedAt));
+            repository.UpdateStatus(id, status);
             return Success(repository.Get(id));
         }
         

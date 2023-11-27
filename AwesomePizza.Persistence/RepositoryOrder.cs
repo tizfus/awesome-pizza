@@ -18,19 +18,10 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
 
     public OrderId Save(Order order)
     {
-        var result = Find(order.Id);
-        if(result != null)
-        {
-            result.Status = $"{order.Status}";
-        }
-        else
-        {
-            context.Add(ToEntity(order));
-        }
-
+        context.Add(ToEntity(order));
         context.SaveChanges();
 
-        return Find(order.Id)!.Id;
+        return order.Id;
     }
 
     public IEnumerable<Order> List()
@@ -38,6 +29,14 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return context.Orders
             .Select(ToOrderPort)
             .ToList();
+    }
+
+    public void UpdateStatus(OrderId id, OrderStatus status)
+    {
+        var result = Find(id)!;
+        result.Status = $"{status}";
+
+        context.SaveChanges();
     }
 
     private Entity.Order? Find(OrderId id)

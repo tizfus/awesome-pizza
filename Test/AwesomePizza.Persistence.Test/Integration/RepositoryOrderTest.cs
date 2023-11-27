@@ -34,13 +34,13 @@ public class RepositoryOrderTest : IDisposable
     }
 
     [Fact]
-    public void UpdateOrder()
+    public void UpdateStatusOrder()
     {
         var orderId = $"{new Random().Next()}";
         repository.Save(new Order(orderId, OrderStatus.Todo, DateTime.Now));
         var firstActual = repository.Get(orderId);
 
-        repository.Save(new Order(orderId, OrderStatus.Done, DateTime.Now));
+        repository.UpdateStatus(orderId, OrderStatus.Done);
         var secondActual = repository.Get(orderId);
 
         Assert.Equal(OrderStatus.Todo,firstActual.Status);

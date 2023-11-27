@@ -5,5 +5,5 @@ public interface IOrderService
     Result<Order> Get(OrderId id);
     IEnumerable<Order> Pending();
     OrderId New();
-    Result<Order> Update(OrderId order, OrderStatus status);
+    Result<Order> UpdateStatus(OrderId order, OrderStatus status);
 }
