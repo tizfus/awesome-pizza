@@ -1,0 +1,14 @@
+services:
+  app:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    command: dotnet run --project AwesomePizza.API --launch-profile Staging
+    ports:
+      - 5233:5233
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - awesome-pizza-db:/root/awesome-pizza
+
+
+volumes:
+  awesome-pizza-db:
