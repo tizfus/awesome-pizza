@@ -13,7 +13,6 @@
                 "--project", "${workspaceFolder}/AwesomePizza.Persistence",
                 "--startup-project", "${workspaceFolder}/AwesomePizza.API",
             ],
-
             "group": "build"
         },
         {
@@ -25,9 +24,7 @@
                 "-v","q",
                 "1>", "/dev/null"
             ],
-
             "group": "test",
-            
         },
         {
             "label": "Run API",
@@ -35,10 +32,8 @@
             "type": "process",
             "args": [
                 "run",
-                "--project", "${workspaceFolder}/AwesomePizza.API",
-                "--launch-profile", "staging"
+                "--project", "${workspaceFolder}/AwesomePizza.API"
             ],
-
             "group": "build"
         }
     ],
