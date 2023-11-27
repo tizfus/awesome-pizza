@@ -14,6 +14,11 @@ public record class Result<T> (T? Value)
     {
         return Succeeded ? new (map(Value!)) : new ((T1?)null);
     }
+
+    public T1 Map<T1>(Func<T, T1> onSuccess, Func<T1> onFailure)
+    {
+        return Succeeded ? onSuccess(Value!) : onFailure();
+    }
 }
 
 public static class Result

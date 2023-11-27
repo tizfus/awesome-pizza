@@ -16,10 +16,7 @@ public class AdminController(OrderAdapter adapter) : ControllerBase
     [HttpPut("order/{id}")]
     public IActionResult Update(string id, [FromBody] UpdateRequest payload)
     {
-        return adapter.UpdateStatus(id, payload) switch
-        {
-            { Succeeded: true, Value: var value } => Ok(value),
-            _ => NotFound()
-        };
+        return adapter.UpdateStatus(id, payload)
+            .Map<IActionResult>(Ok, NotFound);
     }
 }
