@@ -48,7 +48,7 @@ public class FunctionalTest : IDisposable
         Assert.NotNull(jsonContent);
         Assert.NotNull(jsonContent["id"]);
         Assert.NotNull(jsonContent["status"]);
-        Assert.NotNull(jsonContent["created_at"]);
+        Assert.NotNull(jsonContent["createdAt"]);
     }
 
     [Fact]

@@ -1,4 +1,4 @@
-﻿
+
 using AwesomePizza.Ports;
 using static AwesomePizza.Ports.Result;
 using AwesomePizza.Ports.Input;
@@ -22,20 +22,23 @@ public class OrderService(IRepositoryOrder repository) : IOrderService
 
     public IEnumerable<Order> Pending()
     {
-        return repository.List().Where(order => order.IsPending());
+        return repository.List()
+            .Where(order => order.IsPending())
+            .OrderBy(order => order.CreatedAt);
     }
 
     public OrderId New()
     {
-        return repository.Save(new Order($"{Guid.NewGuid()}", OrderStatus.Todo));
+        return repository.Save(new Order($"{Guid.NewGuid()}", OrderStatus.Todo, DateTime.Now));
     }
 
-    public Result<Order> Update(Order order)
+    public Result<Order> Update(OrderId id, OrderStatus status)
     {
-        if(repository.Exists(order.Id))
+        if(repository.Exists(id))
         {
-            repository.Save(order);
-            return Success(repository.Get(order.Id));
+            var oldOrder = repository.Get(id);
+            repository.Save(new (oldOrder.Id, status, oldOrder.CreatedAt));
+            return Success(repository.Get(id));
         }
         
         return Fail<Order>();

@@ -1,4 +1,4 @@
-﻿using AwesomePizza.API.Models;
+using AwesomePizza.API.Models;
 using AwesomePizza.Ports.Input;
 
 namespace AwesomePizza.API;
@@ -24,11 +24,11 @@ public class OrderAdapter(IOrderService service)
 
     public Ports.Result<Order> UpdateStatus(string id, UpdateRequest request)
     {
-        return service.Update(new Ports.Order(id, request.Status)).Map(ToOrderModel);
+        return service.Update(id, request.Status).Map(ToOrderModel);
     }
 
     private Order ToOrderModel(Ports.Order order)
     {
-        return new Order($"{order.Id}", order.Status);
+        return new Order($"{order.Id}", order.Status, order.CreatedAt);
     }
 }

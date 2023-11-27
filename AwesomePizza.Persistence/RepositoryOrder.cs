@@ -13,7 +13,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
     public Order Get(OrderId id)
     {
         var order = Find(id)!;
-        return new Order(order.Id, ToOrderStatus(order.Status));
+        return ToOrderPort(order);
     }
 
     public OrderId Save(Order order)
@@ -36,7 +36,7 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
     public IEnumerable<Order> List()
     {
         return context.Orders
-            .Select(order => new Order(order.Id, ToOrderStatus(order.Status)))
+            .Select(ToOrderPort)
             .ToList();
     }
 
@@ -50,13 +50,19 @@ public class RepositoryOrder(Context context) : IRepositoryOrder
         return Enum.Parse<OrderStatus>(status);
     }
 
+
+    private static Order ToOrderPort(Entity.Order order)
+    {
+        return new Order(order.Id, ToOrderStatus(order.Status), order.CreatedAt);
+    }
+
     private static Entity.Order ToEntity(Order order)
     {
         return new Entity.Order 
         { 
             Id = $"{order.Id}", 
             Status = $"{order.Status}",
-            CreatedAt = DateTime.Now
+            CreatedAt = order.CreatedAt
         };
     }
 }

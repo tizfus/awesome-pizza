@@ -1,9 +1,7 @@
 ﻿namespace AwesomePizza.Ports;
 
-public record Order(OrderId Id, OrderStatus Status)
+public record Order(OrderId Id, OrderStatus Status, DateTime CreatedAt)
 {
-    public OrderStatus Status { get; set; } = Status;
-
     public bool IsPending()
         => Status == OrderStatus.Todo || Status == OrderStatus.Doing;
 };

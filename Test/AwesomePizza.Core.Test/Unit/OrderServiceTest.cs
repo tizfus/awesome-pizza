@@ -20,7 +20,8 @@ public class OrderServiceTest
     {
         var expectedId = $"{new Random().Next()}";
 
-        mockRepository.Setup(mock => mock.Save(It.Is<Order>(order => order.Status == OrderStatus.Todo))).Returns(new OrderId(expectedId));
+        mockRepository.Setup(mock => mock.Save(It.Is<Order>(order => order.Status == OrderStatus.Todo && order.CreatedAt != default)))
+            .Returns(new OrderId(expectedId));
 
         var actual = service.New();
 
@@ -50,7 +51,7 @@ public class OrderServiceTest
     public void GetOrder()
     {
         mockRepository.Setup(mock => mock.Exists(It.IsAny<OrderId>())).Returns(true);
-        mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
+        mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default, DateTime.Now));
 
         var actual = service.Get("any id 2");
 
@@ -73,9 +74,9 @@ public class OrderServiceTest
     public void PendingOrder()
     {
         mockRepository.Setup(mock => mock.List()).Returns([
-            new Order("any id 1", OrderStatus.Doing),
-            new Order("any id 2", OrderStatus.Done),
-            new Order("any id 3", OrderStatus.Todo),
+            new Order("any id 1", OrderStatus.Doing, DateTime.Now),
+            new Order("any id 2", OrderStatus.Done, DateTime.Now),
+            new Order("any id 3", OrderStatus.Todo, DateTime.Now),
         ]);
 
         var actual = service.Pending();
@@ -85,17 +86,34 @@ public class OrderServiceTest
     }
 
     [Fact]
+    public void PendingOrderAsc()
+    {
+        mockRepository.Setup(mock => mock.List()).Returns([
+            new Order("any id 2", OrderStatus.Todo, new DateTime(2023, 05, 06)),
+            new Order("any id 1", OrderStatus.Doing, new DateTime(1990, 1, 1)),
+            new Order("any id 3", OrderStatus.Todo, new DateTime(2023, 01, 28)),
+        ]);
+
+        var actual = service.Pending();
+
+        Assert.Equal("any id 1", actual.ElementAt(0).Id);
+        Assert.Equal("any id 3", actual.ElementAt(1).Id);
+        Assert.Equal("any id 2", actual.ElementAt(2).Id);
+    }
+
+    [Fact]
     public void Update()
     {
         mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(true);
+        mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default, DateTime.Now));
         mockRepository.Setup(mock => mock.Save(It.IsNotNull<Order>())).Returns("any id");
-        mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default));
+        mockRepository.Setup(mock => mock.Get(It.IsAny<OrderId>())).Returns(new Order("any id 1", default, DateTime.Now));
 
-        var actual = service.Update(new Order("any id 2", default));
+        var actual = service.Update("any id 2", default);
 
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Once);
-        mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Once);
+        mockRepository.Verify(mock => mock.Get(It.IsAny<OrderId>()), Times.Exactly(2));
     }
 
     [Fact]
@@ -103,7 +121,7 @@ public class OrderServiceTest
     {
         mockRepository.Setup(mock => mock.Exists(It.IsNotNull<OrderId>())).Returns(false);
 
-        var actual = service.Update(new Order("any id 2", default));
+        var actual = service.Update("any id 2", default);
 
         Assert.NotNull(actual);
         mockRepository.Verify(mock => mock.Save(It.IsNotNull<Order>()), Times.Never);
